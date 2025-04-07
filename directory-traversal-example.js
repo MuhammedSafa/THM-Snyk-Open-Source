@@ -11,6 +11,9 @@ function sendFileWithUserSuppliedName(res, filePath) {
   
   fs.access(fullPath, fs.constants.F_OK, (err) => {
     if (!err) {
+      if (fullPath.includes('../') || fullPath.includes('..\\')) {
+        throw new Error("Invalid file path");
+      }
       res.sendFile(fullPath);
     } else {
       console.error(`File not found: ${filePath}`);
